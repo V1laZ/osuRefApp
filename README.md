@@ -16,4 +16,8 @@ Python: Select Interpreter
 ```
 select interpreter corresponding to project name which should be something like *osuRefApp-O3zasd51*  
   
-run the app with <kbd>F5</kbd>
+run the app with <kbd>F5</kbd>  
+
+## Install on Android
+Download .apk from https://github.com/V1laZ/osuRefApp/releases/tag/alpha
+Install
