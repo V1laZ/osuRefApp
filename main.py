@@ -18,7 +18,7 @@ from kivymd.uix.datatables import MDDataTable
 from kivymd.uix.screen import Screen
 from kivymd.uix.menu import MDDropdownMenu
 
-from extractPool import extractMapPools
+#from extractPool import extractMapPools
 
 Window.size = (280, 570)
 Window.softinput_mode = 'below_target'
@@ -507,29 +507,29 @@ class MyMainApp(MDApp):
         kv = Builder.load_file("style.kv")
         return kv
 
-    def add_mappoolTableGS(self, link, listName):
-        """Initialize table widget with extracted mappool from Google Sheets and add it to mappoolAdd screen"""
-        mappool = extractMapPools(link, listName)
+    # def add_mappoolTableGS(self, link, listName):
+    #     """Initialize table widget with extracted mappool from Google Sheets and add it to mappoolAdd screen"""
+    #     mappool = extractMapPools(link, listName)
 
-        self.mappoolTableGS = MDDataTable(
-            rows_num = len(mappool[0]),
-            size_hint = (0.7, 0.7),
-            pos_hint= {"center_x": 0.5, "top": 0.95},
-            column_data=[
-                ("Type", dp(15)),
-                ("Map ID", dp(15)),
-            ],
-            row_data=[
+    #     self.mappoolTableGS = MDDataTable(
+    #         rows_num = len(mappool[0]),
+    #         size_hint = (0.7, 0.7),
+    #         pos_hint= {"center_x": 0.5, "top": 0.95},
+    #         column_data=[
+    #             ("Type", dp(15)),
+    #             ("Map ID", dp(15)),
+    #         ],
+    #         row_data=[
                 
-            ]
-        )
+    #         ]
+    #     )
 
-        for i in mappool[0]:
-            print(i)
-            self.mappoolTableGS.row_data.append(i)
+    #     for i in mappool[0]:
+    #         print(i)
+    #         self.mappoolTableGS.row_data.append(i)
 
-        self.mappoolTableGS.bind(on_row_press=self.mappoolTableGS_row_pressed)
-        self.root.ids.mappool_add.ids.floatlayout.add_widget(self.mappoolTableGS)
+    #     self.mappoolTableGS.bind(on_row_press=self.mappoolTableGS_row_pressed)
+    #     self.root.ids.mappool_add.ids.floatlayout.add_widget(self.mappoolTableGS)
 
     def mappoolTableGS_row_pressed(self, instance_table, instance_row):
         popup = Popup(
