@@ -1,0 +1,578 @@
+#:kivy 2.1.0
+#:import Factory kivy.factory.Factory
+#:import NoTransition kivy.uix.screenmanager.NoTransition
+WindowManager:
+    LoginWindow:
+        id: login_screen
+        name: "login"
+    LobbyInitWindow:
+        id: lobby_init
+        name: "lobbyInit"
+    MappoolInitWindow:
+        id: mappool_init
+        name: "mappoolInit"
+    CreateMappoolWindow:
+        id: create_mappool
+        name: "createMappool"
+    MainWindow:
+        id: main_window
+        name: "main"
+    MappoolAddWindow:
+        id: mappool_add
+        name: "mappoolAdd"
+    SelectMappoolWindow:
+        id: select_mappool
+        name: "selectMappool"
+
+<LoginWindow>:
+    name: "login"
+
+    username: username
+    password: password
+    checkbox: checkbox
+    errorMsg: errorMsg
+
+    FloatLayout:
+        pos_hint: {"center_y": 0.4}
+
+        MDLabel:
+            id: errorMsg
+            text: ""
+            pos_hint: {"x": 0.1, "center_y": 0.3}
+            theme_text_color: "Error"
+
+        MDLabel:
+            text: "Remember me"
+            pos_hint: {"x": checkbox.pos_hint["center_x"] + 0.06, "center_y": checkbox.pos_hint["center_y"]}
+
+        MDLabel:
+            text: "Username"
+            pos_hint: {"x": 0.1, "center_y": username.pos_hint["center_y"]}
+            size_hint: 0.35, 0.15
+        
+        TextInput:
+            id: username
+            text: root.username_text
+            multiline: False
+            write_tab: False
+            pos_hint: {"x": 0.45, "center_y": 0.85}
+            size_hint: 0.4, 0.08
+            halign: "center"
+            padding_y: [self.height / 2.0 - (self.line_height / 2.0) * len(self._lines), 0]
+
+        MDLabel:
+            text: "Password"
+            pos_hint: {"x": 0.1, "center_y": password.pos_hint["center_y"]}
+            size_hint: 0.35, 0.1
+        
+        TextInput:
+            id: password
+            text: root.password_text
+            password: True
+            multiline: False
+            write_tab: False
+            pos_hint: {"x": 0.45, "center_y": 0.7}
+            size_hint: 0.4, 0.08
+            halign: "center"
+            padding_y: [self.height / 2.0 - (self.line_height / 2.0) * len(self._lines), 0]
+
+        MDCheckbox:
+            id: checkbox
+            active: True
+            size_hint: None, None
+            size: "48dp", "48dp"
+            pos_hint: {"center_x": 0.15, "center_y": 0.6}
+        
+        Button:
+            text: "Login"
+            pos_hint: {"center_y": 0.45, "center_x": 0.52}
+            size_hint: 0.5, 0.1
+            on_release:
+                root.remember(username.text, password.text) if checkbox.active else root.dont_remember()
+                app.root.current = "lobbyInit" if root.login(username.text, password.text) else "login"
+                root.manager.transition.direction = "left"
+
+<JoinLobbyPopup@Popup>:
+    name: "joinLobbyPopup"
+    title: "Join Lobby"
+    size_hint: 0.9, 0.4
+
+    FloatLayout:
+        Label:
+            text: "Lobby ID"
+            size_hint: 0.6, 0.2
+            pos_hint: {"x": 0.2, "top": 1}
+
+        TextInput:
+            id: lobby_id
+            multiline: False
+            input_type: "number"
+            pos_hint: {"x": 0.1, "top": 0.8}
+            size_hint: 0.8, 0.2
+            halign: "center"
+            padding_y: [self.height / 2.0 - (self.line_height / 2.0) * len(self._lines), 0]
+
+        Button:
+            text: "Join"
+            pos_hint: {"center_x": 0.5, "top": 0.45}
+            size_hint: 0.4, 0.3
+            on_release:
+                root.joinLobby(lobby_id.text)
+                app.addSelectMappoolTable()
+                app.root.current = "selectMappool"
+                root.dismiss()
+
+<CreateLobbyPopup@Popup>:
+    name: "createLobbyPopup"
+    title: "Create Lobby"
+    size_hint: 0.9, 0.8
+    separator_color: [233/255, 30/255, 99/255, 1]
+
+    prefix: prefix
+    team1: team1
+    team2: team2
+    win_cond: win_cond
+    slots: slots
+    mode: mode
+
+    BoxLayout:
+        orientation: "vertical"
+        padding: [0, "4sp", 0, "10sp"]
+        MDTextField:
+            id: prefix
+            hint_text: "Prefix"
+            font_size: "16sp"
+            write_tab: False
+        BoxLayout:
+            orientation: "horizontal"
+            MDTextField:
+                id: team1
+                hint_text: "Team1"
+                font_size: "16sp"
+                write_tab: False
+            MDLabel:
+                text: "vs"
+                text_size: self.size
+                valign: "middle"
+                halign: "center"
+                font_size: "16sp"
+            MDTextField:
+                id: team2
+                hint_text: "Team2"
+                font_size: "16sp"
+                write_tab: False
+        BoxLayout:
+            orientation: "horizontal"
+            MDLabel:
+                text: "Win condition"
+                text_size: self.size
+                valign: "bottom"
+            MDDropDownItem:
+                id: win_cond
+                text: "Score V2"
+                on_release:
+                    root.open_win_cond_dropdown()
+
+        BoxLayout:
+            orientation: "horizontal"
+            MDLabel:
+                text: "Slots"
+                text_size: self.size
+                valign: "bottom"
+            MDDropDownItem:
+                id: slots
+                text: "8"
+                on_release:
+                    root.open_slots_dropdown()
+        BoxLayout:
+            orientation: "horizontal"
+            MDLabel:
+                text: "Mode"
+                text_size: self.size
+                valign: "bottom"
+            MDDropDownItem:
+                id: mode
+                text: "Team VS"
+                on_release:
+                    root.open_modes_dropdown()
+
+        Widget:
+    
+        MDRaisedButton:
+            pos_hint: {"center_x": 0.5}
+            font_style: "Button"
+            text: "Create"
+            on_release:
+                root.create_lobby()
+                self.disabled = True
+                app.addSelectMappoolTable()
+                app.root.current = "selectMappool"
+                root.dismiss()
+
+
+<LobbyInitWindow>:
+    name: "lobbyInit"
+    FloatLayout:
+        BoxLayout:
+            orientation: "vertical"
+            padding: [0, 0, 0, self.height / 3]
+            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+            spacing: "13sp"
+            MDRectangleFlatButton:
+                id: joinLobbyBtn
+                text: "Join Lobby"
+                font_size: "24sp"
+                pos_hint: {"center_x": 0.5}
+                halign: "center"
+                valign: "center"
+                text_size: (200, None)
+                on_release:
+                    root.manager.transition.direction = "left"
+                    Factory.JoinLobbyPopup().open()
+
+            MDRectangleFlatButton:
+                id: createLobbyBtn
+                text: "Create Lobby"
+                font_size: "24sp"
+                pos_hint: {"center_x": 0.5}
+                halign: "center"
+                valign: "center"
+                text_size: (200, None)
+                on_release:
+                    Factory.CreateLobbyPopup().open()
+            
+            MDRectangleFlatButton:
+                id: mappoolsBtn
+                text: "Mappools"
+                font_size: "24sp"
+                pos_hint: {"center_x": 0.5}
+                halign: "center"
+                valign: "center"
+                text_size: (200, None)
+                on_release:
+                    app.addMappoolTable() if app.mappool_table is None else ""
+                    app.root.current = "mappoolInit"
+                    root.manager.transition.direction = "left"
+
+
+<MappoolInitWindow>:
+    name: "mappoolInit"
+
+    FloatLayout:
+        id: floatlayout
+        Button:
+            text: "Add Mappool"
+            pos_hint: {"top": 0.95, "center_x": 0.5}
+            size_hint: 0.5, 0.07
+            on_release:
+                Factory.MappoolAddPopup().open()
+
+        Button:
+            text: "Remove Mappool"
+            pos_hint: {"top": 0.85, "center_x": 0.5}
+            size_hint: 0.5, 0.07
+            on_release:
+                Factory.MappoolRemovePopup().open()
+
+        Button:
+            text: "Create Mappool"
+            pos_hint: {"top": 0.75, "center_x": 0.5}
+            size_hint: 0.5, 0.07
+            on_release:
+                app.root.ids.create_mappool.add_table()
+                app.root.current = "createMappool"
+                root.manager.transition.direction = "left"
+
+        Button:
+            text: "Back"
+            size_hint: 0.2, 0.05
+            on_release:
+                app.root.current = "lobbyInit"
+                root.manager.transition.direction = "right"
+
+<MappoolRemovePopup@Popup>:
+    name: "mappoolRemovePopup"
+    title: "Remove Mappool"
+    size_hint: 0.9, 0.4
+
+    FloatLayout:
+        Label:
+            text: "Name"
+            size_hint: 0.6, 0.2
+            pos_hint: {"x": 0.2, "top": 1}
+
+        TextInput:
+            id: mappool_remove_name
+            multiline: False
+            pos_hint: {"x": 0.1, "top": 0.78}
+            size_hint: 0.8, 0.2
+            halign: "center"
+            padding_y: [self.height / 2.0 - (self.line_height / 2.0) * len(self._lines), 0]
+
+        Button:
+            text: "Remove"
+            pos_hint: {"center_x": 0.5, "top": 0.45}
+            size_hint: 0.4, 0.23
+            on_release:
+                root.removeMappool(mappool_remove_name.text)
+                root.dismiss()
+
+<MappoolAddPopup@Popup>:
+    name: "mappoolAddPopup"
+    title: "Add Mappool"
+    size_hint: 0.9, 0.5
+
+    FloatLayout:
+        size_hint: 1, 0.7
+        pos_hint: {"top": 0.8, "center_y": 0.5}
+        Label:
+            text: "Mappool link"
+            size_hint: 0.6, 0.2
+            pos_hint: {"x": 0.2, "top": 1}
+
+        TextInput:
+            id: mappool_link
+            multiline: False
+            pos_hint: {"x": 0.1, "top": 0.8}
+            size_hint: 0.8, 0.2
+            halign: "center"
+            padding_y: [self.height / 2.0 - (self.line_height / 2.0) * len(self._lines), 0]
+
+        Label:
+            text: "Sheet list name"
+            size_hint: 0.6, 0.2
+            pos_hint: {"x": 0.2, "top": 0.55}
+
+        TextInput:
+            id: mappool_list_name
+            multiline: False
+            pos_hint: {"x": 0.1, "top": 0.35}
+            size_hint: 0.8, 0.2
+            halign: "center"
+            padding_y: [self.height / 2.0 - (self.line_height / 2.0) * len(self._lines), 0]
+
+        Button:
+            text: "Add"
+            pos_hint: {"center_x": 0.5, "top": 0}
+            size_hint: 0.35, 0.25
+            on_release:
+                app.add_mappoolTableGS(mappool_link.text, mappool_list_name.text)
+                app.root.current = "mappoolAdd"
+                root.dismiss()
+
+<MappoolSavePopup@Popup>:
+    name: "mappoolSavePopup"
+    title: "Save Mappool"
+    size_hint: 0.9, 0.4
+
+    mappool_name: mappool_name
+
+    FloatLayout:
+        Label:
+            text: "Name"
+            size_hint: 0.6, 0.2
+            pos_hint: {"x": 0.2, "top": 1}
+
+        TextInput:
+            id: mappool_name
+            multiline: False
+            pos_hint: {"x": 0.1, "top": 0.8}
+            size_hint: 0.8, 0.2
+            halign: "center"
+            padding_y: [self.height / 2.0 - (self.line_height / 2.0) * len(self._lines), 0]
+
+        Button:
+            text: "Save"
+            pos_hint: {"center_x": 0.5, "top": 0.45}
+            size_hint: 0.4, 0.3
+            on_release:
+                root.write_mappool(app.mappoolTableGS.row_data, root.mappool_name.text) if app.root.current == "mappoolAdd" else root.write_mappool(app.root.ids.create_mappool.createMappoolTable.row_data, root.mappool_name.text)
+                app.root.ids.mappool_add.ids.floatlayout.remove_widget(app.mappoolTableGS) if app.root.current == "mappoolAdd" else app.root.ids.create_mappool.ids.floatlayout.remove_widget(app.root.ids.create_mappool.createMappoolTable)
+                app.root.ids.create_mappool.createMappoolTable = None if app.root.current == "createMappool" else ""
+                app.root.current = "mappoolInit"
+                root.dismiss()
+
+<MappoolAddWindow>:
+    id: mappool_add
+    name: "mappoolAdd"
+
+    FloatLayout:
+        id: floatlayout
+        Button:
+            text: "Save"
+            pos_hint: {"center_y": 0.1, "center_x": 0.5}
+            size_hint: 0.3, 0.08
+            on_release:
+                Factory.MappoolSavePopup().open()
+        Button:
+            text: "Back"
+            size_hint: 0.2, 0.05
+            on_release:
+                app.root.current = "mappoolInit"
+                app.root.ids.mappool_add.ids.floatlayout.remove_widget(app.mappoolTableGS)
+                root.manager.transition.direction = "right"
+
+<CreateMappoolWindow>:
+    name: "createMappool"
+    mapType: mapType
+    mapID: mapID
+
+    FloatLayout:
+        id: floatlayout
+        BoxLayout:
+            pos_hint: {"center_x": 0.5, "center_y": 0.22}
+            size_hint: 0.8, 0.12
+            orientation: "vertical"
+            BoxLayout:
+                orientation: "horizontal"
+                Label:
+                    text: "Type"
+                Label:
+                    text: "MapID/link"
+            BoxLayout:
+                orientation: "horizontal"
+                TextInput:
+                    id: mapType
+                    write_tab: False
+                    multiline: False
+                    padding_y: [self.height / 2.0 - (self.line_height / 2.0) * len(self._lines), 0]
+                TextInput:
+                    id: mapID
+                    write_tab: False
+                    multiline: False
+                    input_type: "number"
+                    padding_y: [self.height / 2.0 - (self.line_height / 2.0) * len(self._lines), 0]
+        Button:
+            text: "Add row"
+            size_hint: 0.3, 0.06
+            pos_hint: {"center_x": 0.5, "center_y": 0.1}
+            on_release:
+                root.add_row(mapType.text, mapID.text)
+                mapID.text = ""
+
+        Button:
+            text: "Back"
+            size_hint: 0.2, 0.05
+            on_release:
+                app.root.current = "mappoolInit"
+                root.manager.transition.direction = "right"
+                floatlayout.remove_widget(root.createMappoolTable)
+                root.createMappoolTable = None
+
+        MDRaisedButton:
+            text: "Save"
+            size_hint: 0.08, 0.05
+            pos_hint: {"right": 1, "down": 1}
+            on_release:
+                Factory.MappoolSavePopup().open()
+
+
+<SelectMappoolWindow>:
+    name: "selectMappool"
+
+    FloatLayout:
+        id: floatlayout
+        MDLabel:
+            text: "Select mappool"
+            pos_hint: {"x": 0.1, "y": 0.35}
+
+<MainWindow>:
+    name: "main"
+    chat: chat
+    players: players
+    roomName: roomName
+    beatmap: beatmap
+    
+    FloatLayout:
+        MDIconButton:
+            icon: "refresh"
+            pos_hint: {"center_x": 0.9, "top": 0.936}
+            on_release:
+                root.sendChatInput("!mp settings")
+        MDLabel:
+            id: roomName
+            name: "roomNameLabel"
+            text: "Room name"
+            font_size: "15dp"
+            pos_hint: {"x": 0.03, "y": 0.46}
+        MDLabel:
+            id: beatmap
+            name: "beatmapLabel"
+            text: "Beatmap:"
+            font_size: "15dp"
+            pos_hint: {"x": 0.08, "y": 0.05}
+        MDLabel:
+            text: "Players"
+            font_size: "20dp"
+            pos_hint: {"x": 0.06, "y": 0.4}
+        TextInput:
+            id: players
+            readonly: True
+            is_focusable: False
+            size_hint: 0.7, 0.28
+            pos_hint: {"x": 0.072, "top": 0.87}
+            font_size: "15dp"
+            foreground_color: 1,1,1,1
+            background_color: 0.07,0.07,0.07,0
+            
+        ScrollView:
+            id: scrlv
+            pos_hint: {"center_x": 0.5, "y": 0.2}
+            size_hint: 0.7, 0.3
+            TextInput:
+                id: chat
+                readonly: True
+                is_focusable: False
+                multiline: True
+                font_size: "12dp"
+                size_hint: 1, None
+                height: max(self.minimum_height, scrlv.height)
+
+        TextInput:
+            id: chatInput
+            readonly: False
+            multiline: False
+            text_validate_unfocus: False
+            pos_hint: {"x": 0.15, "y": 0.12}
+            size_hint: 0.58, 0.05
+            padding_y: [self.height / 2.0 - (self.line_height / 2.0) * len(self._lines), 0]
+            on_text_validate:
+                root.sendChatInput(self.text)
+                self.text = ""
+
+        MDIconButton:
+            icon: "send"
+            theme_text_color: "Custom"
+            text_color: app.theme_cls.primary_color
+            pos_hint: {"center_x": 0.8, "center_y": 0.148}
+            on_release:
+                root.sendChatInput(chatInput.text)
+                chatInput.text = ""
+
+        MDIconButton:
+            icon: "play"
+            text: "mp start"
+            user_font_size: "36sp"
+            theme_text_color: "Custom"
+            text_color: app.theme_cls.primary_color
+            pos_hint: {"center_x": 0.8, "center_y": 0.054}
+            on_release:
+                root.sendChatInput("!mp start 10")
+
+        MDIconButton:
+            icon: "stop"
+            text: "mp abort"
+            user_font_size: "36sp"
+            theme_text_color: "Custom"
+            text_color: app.theme_cls.primary_color
+            pos_hint: {"center_x": 0.19, "center_y": 0.054}
+            on_release:
+                root.sendChatInput("!mp abort")
+
+        MDRaisedButton:
+            text: "Select map"
+            font_style: "Button"
+            size_hint: 0.35, 0.06
+            pos_hint: {"center_x": 0.5, "top": 0.08}
+            on_release:
+                root.openMappool()
