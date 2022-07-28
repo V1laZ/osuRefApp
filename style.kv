@@ -33,64 +33,45 @@ WindowManager:
     errorMsg: errorMsg
 
     FloatLayout:
-        pos_hint: {"center_y": 0.4}
+        pos_hint: {"center_y": 0.4, "center_x": 0.5}
+        size_hint: 0.8, 1
 
         MDLabel:
             id: errorMsg
             text: ""
-            pos_hint: {"x": 0.1, "center_y": 0.3}
+            pos_hint: {"x": 0, "center_y": 0.3}
             theme_text_color: "Error"
-
         MDLabel:
             text: "Remember me"
             pos_hint: {"x": checkbox.pos_hint["center_x"] + 0.06, "center_y": checkbox.pos_hint["center_y"]}
-
-        MDLabel:
-            text: "Username"
-            pos_hint: {"x": 0.1, "center_y": username.pos_hint["center_y"]}
-            size_hint: 0.35, 0.15
-        
-        TextInput:
+        MDTextField:
             id: username
+            hint_text: "Username"
             text: root.username_text
-            multiline: False
             write_tab: False
-            pos_hint: {"x": 0.45, "center_y": 0.85}
-            size_hint: 0.4, 0.08
-            halign: "center"
-            padding_y: [self.height / 2.0 - (self.line_height / 2.0) * len(self._lines), 0]
-
-        MDLabel:
-            text: "Password"
-            pos_hint: {"x": 0.1, "center_y": password.pos_hint["center_y"]}
-            size_hint: 0.35, 0.1
-        
-        TextInput:
+            pos_hint: {"x": 0, "center_y": 0.85}
+        MDTextField:
             id: password
+            hint_text: "Password"
             text: root.password_text
             password: True
-            multiline: False
             write_tab: False
-            pos_hint: {"x": 0.45, "center_y": 0.7}
-            size_hint: 0.4, 0.08
-            halign: "center"
-            padding_y: [self.height / 2.0 - (self.line_height / 2.0) * len(self._lines), 0]
-
+            pos_hint: {"x": 0, "center_y": 0.7}
         MDCheckbox:
             id: checkbox
             active: True
             size_hint: None, None
             size: "48dp", "48dp"
-            pos_hint: {"center_x": 0.15, "center_y": 0.6}
-        
-        Button:
+            pos_hint: {"center_x": 0.05, "center_y": 0.6}
+        MDRaisedButton:
             text: "Login"
-            pos_hint: {"center_y": 0.45, "center_x": 0.52}
-            size_hint: 0.5, 0.1
+            pos_hint: {"center_y": 0.5, "center_x": 0.5}
+            size_hint: 1, None
             on_release:
                 root.remember(username.text, password.text) if checkbox.active else root.dont_remember()
                 app.root.current = "lobbyInit" if root.login(username.text, password.text) else "login"
                 root.manager.transition.direction = "left"
+        
 
 <JoinLobbyPopup@Popup>:
     name: "joinLobbyPopup"
