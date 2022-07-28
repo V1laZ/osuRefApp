@@ -13,7 +13,7 @@ class LoginWindow(Screen):
     def __init__(self, **kw):
         super().__init__(**kw)
         try:
-            with open('login.json') as f:
+            with open('login.json', "r") as f:
                 data = json.load(f)
                 self.username_text = data["osu_IRC_name"]
                 self.password_text = data["osu_IRC_token"]
