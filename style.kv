@@ -33,7 +33,7 @@ WindowManager:
     errorMsg: errorMsg
 
     FloatLayout:
-        pos_hint: {"center_y": 0.4, "center_x": 0.5}
+        pos_hint: {"center_y": 0.33, "center_x": 0.5}
         size_hint: 0.8, 1
 
         MDLabel:
@@ -49,7 +49,7 @@ WindowManager:
             hint_text: "Username"
             text: root.username_text
             write_tab: False
-            pos_hint: {"x": 0, "center_y": 0.85}
+            pos_hint: {"x": 0, "center_y": 0.82}
         MDTextField:
             id: password
             hint_text: "Password"
@@ -65,13 +65,13 @@ WindowManager:
             pos_hint: {"center_x": 0.05, "center_y": 0.6}
         MDRaisedButton:
             text: "Login"
+            font_style: "Button"
             pos_hint: {"center_y": 0.5, "center_x": 0.5}
             size_hint: 1, None
             on_release:
                 root.remember(username.text, password.text) if checkbox.active else root.dont_remember()
                 app.root.current = "lobbyInit" if root.login(username.text, password.text) else "login"
                 root.manager.transition.direction = "left"
-        
 
 <JoinLobbyPopup@Popup>:
     name: "joinLobbyPopup"
@@ -118,7 +118,7 @@ WindowManager:
 
     BoxLayout:
         orientation: "vertical"
-        padding: [0, "4sp", 0, "10sp"]
+        padding: ["10sp", "8sp", "10sp", "10sp"]
         MDTextField:
             id: prefix
             hint_text: "Prefix"
@@ -182,6 +182,7 @@ WindowManager:
         MDRaisedButton:
             pos_hint: {"center_x": 0.5}
             font_style: "Button"
+            size_hint: 1, None
             text: "Create"
             on_release:
                 root.create_lobby()
@@ -189,7 +190,6 @@ WindowManager:
                 app.addSelectMappoolTable()
                 app.root.current = "selectMappool"
                 root.dismiss()
-
 
 <LobbyInitWindow>:
     name: "lobbyInit"
@@ -234,7 +234,6 @@ WindowManager:
                     app.addMappoolTable() if app.mappool_table is None else ""
                     app.root.current = "mappoolInit"
                     root.manager.transition.direction = "left"
-
 
 <MappoolInitWindow>:
     name: "mappoolInit"
@@ -446,7 +445,6 @@ WindowManager:
             pos_hint: {"right": 1, "down": 1}
             on_release:
                 Factory.MappoolSavePopup().open()
-
 
 <SelectMappoolWindow>:
     name: "selectMappool"
