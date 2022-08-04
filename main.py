@@ -2,6 +2,8 @@ from kivy.config import Config
 from kivy.core.window import Window
 from kivy.uix.screenmanager import ScreenManager
 
+from app.MainApp import MyMainApp
+from classes.Popups.CreateLobbyPopup import CreateLobbyPopup
 from classes.Popups.JoinLobbyPopup import JoinLobbyPopup
 from classes.Popups.MappoolAddPopup import MappoolAddPopup
 from classes.Popups.MappoolRemovePopup import MappoolRemovePopup
@@ -14,9 +16,7 @@ from classes.Screens.MappoolAddWindow import MappoolAddWindow
 from classes.Screens.MappoolInitWindow import MappoolInitWindow
 from classes.Screens.SelectMappoolWindow import SelectMappoolWindow
 
-from app.MainApp import MyMainApp
-
-Window.size = (280, 570)
+Window.size = (400, 800)
 Window.softinput_mode = 'below_target'
 Config.set('kivy', 'exit_on_escape', '0')
 
@@ -37,6 +37,8 @@ MappoolAddWindow
 MappoolSavePopup
 
 CreateMappoolWindow
+
+CreateLobbyPopup
 
 SelectMappoolWindow
 
