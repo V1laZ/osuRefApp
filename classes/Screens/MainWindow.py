@@ -91,7 +91,6 @@ class MainWindow(Screen):
                         settings.irc.sendall(f"{msg.replace('PING', 'PONG')}\n".encode())
                         print("Received PING sent PONG")
                     elif "353" in msg:
-                        print(msg)
                         players = i.split(" ")
                         players = players[6:]
                         players.pop()
@@ -102,7 +101,6 @@ class MainWindow(Screen):
                     elif "PRIVMSG" in msg:
                         privmsg = msg.split(" ")
                         if privmsg[0] == ":BanchoBot" and privmsg[3] == ":Created":
-                            print(msg)
                             link_split = privmsg[7].split('/')
                             lobbyID = link_split[-1]
                             settings.lobby = lobbyID
@@ -166,7 +164,6 @@ class MainWindow(Screen):
                                 self.update_map(mapName=" ".join(privmsg[3:-1]))
                             else:
                                 chatmsg = " ".join(privmsg)
-                                print(f"BanchoBot {chatmsg}")
                                 self.addChatMsg(f"BanchoBot {chatmsg}")
 
                     else:
