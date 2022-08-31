@@ -269,7 +269,7 @@ WindowManager:
 
     MDIconButton:
         icon: "arrow-left"
-        user_font_size: "48sp"
+        user_font_size: "24sp"
         on_release:
             app.root.current = "lobbyInit"
             root.manager.transition.direction = "right"
@@ -367,7 +367,7 @@ WindowManager:
 
         MDIconButton:
             icon: "arrow-left"
-            user_font_size: "48sp"
+            user_font_size: "24sp"
             on_release:
                 app.root.current = "mappoolInit"
                 root.manager.transition.direction = "right"
@@ -376,7 +376,7 @@ WindowManager:
 
         MDIconButton:
             icon: "content-save"
-            user_font_size: "48sp"
+            user_font_size: "24sp"
             pos_hint: {"right": 1, "down": 1}
             on_release:
                 Factory.MappoolSavePopup().open()
