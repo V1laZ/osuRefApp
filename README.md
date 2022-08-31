@@ -1,6 +1,10 @@
 # osuRefApp
 Android app for osu! referees.
 
+## Prerequisites
+- [Python 3](https://www.python.org/downloads/)
+- [pipenv](https://pypi.org/project/pipenv/)
+
 ## Build and run
 Open project folder in VS Code and type in terminal
 ```
@@ -19,4 +23,4 @@ select interpreter corresponding to project name which should be something like 
 run the app with <kbd>F5</kbd>  
 
 ## Install on Android
-Download apk from https://github.com/V1laZ/osuRefApp/releases/tag/alpha  
+Download apk from [releases](https://github.com/V1laZ/osuRefApp/releases/tag/v1.0) 
