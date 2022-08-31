@@ -1,5 +1,5 @@
 # osuRefApp
-Very simple app for osu! referees.
+Android app for osu! referees.
 
 ## Build and run
 Open project folder in VS Code and type in terminal
