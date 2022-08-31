@@ -37,7 +37,8 @@ class MyMainApp(MDApp):
 
         self.mappool_table = MDDataTable(
             rows_num = 10,
-            pos_hint = {"center_x": 0.5},
+            size_hint = (0.7, 0.6),
+            pos_hint = {"center_x": 0.5, "top": 0.92},
             column_data = [
                 ("Name", dp(30)),
                 ("", dp(1))
@@ -51,7 +52,7 @@ class MyMainApp(MDApp):
             self.mappool_table.row_data.append((name, ""))
         
         self.mappool_table.bind(on_row_press=self.mappool_row_pressed)
-        self.root.ids.mappool_init.ids.boxlayout.add_widget(self.mappool_table, index=3)
+        self.root.ids.mappool_init.ids.floatlayout.add_widget(self.mappool_table, index=3)
 
     def mappool_row_pressed(self, instance_table, instance_row):
         """Called when row is pressed in mappool_table widget. Initialize and show new window with corresponding mappool"""
