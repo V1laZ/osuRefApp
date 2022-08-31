@@ -12,7 +12,6 @@ from classes.Screens.CreateMappoolWindow import CreateMappoolWindow
 from classes.Screens.LobbyInitWindow import LobbyInitWindow
 from classes.Screens.LoginWindow import LoginWindow
 from classes.Screens.MainWindow import MainWindow
-from classes.Screens.MappoolAddWindow import MappoolAddWindow
 from classes.Screens.MappoolInitWindow import MappoolInitWindow
 from classes.Screens.SelectMappoolWindow import SelectMappoolWindow
 
@@ -31,8 +30,6 @@ LobbyInitWindow
 MappoolAddPopup
 
 MappoolInitWindow
-
-MappoolAddWindow
 
 MappoolSavePopup
 
