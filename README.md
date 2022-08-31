@@ -58,7 +58,7 @@ Download apk from [releases](https://github.com/V1laZ/osuRefApp/releases/tag/v1.
 
 ### Join Lobby popup
 ![](https://imgur.com/qcD3z0w.png)
-- **Lobby ID** - numbers that can be found in URL of the match
+- **Lobby ID** - numbers that can be found in URL of the match  
 ![](https://imgur.com/i7Ay5qR.png)
 - **JOIN** - joins the lobby and switches to [Select Mappool](#select-mappool) screen
 
